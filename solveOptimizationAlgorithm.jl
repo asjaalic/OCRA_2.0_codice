@@ -1,6 +1,6 @@
 # SOLVE OPTIMIZATION PROBLEM
 
-function solveOptimizationProblem(InputParameters::InputParam, SolverParameters::SolverParam, Battery::BatteryParam)
+#function solveOptimizationProblem(InputParameters::InputParam, SolverParameters::SolverParam, Battery::BatteryParam)
 
     @unpack (NYears, NMonths, NStages, Big, NHoursStep, disc,) = InputParameters;                #NSteps, NHoursStage
     @unpack (min_SOC, max_SOC, Eff_charge, Eff_discharge, min_P, max_P, max_SOH, min_SOH, Nfull,fix ) = Battery;
@@ -107,7 +107,7 @@ function solveOptimizationProblem(InputParameters::InputParam, SolverParameters:
         for iStage=1:NStages
             rev[iStage] = JuMP.value(problem.revamping[iStage])
             e[iStage] = JuMP.value(problem.e[iStage])
-            deg_stage[iStage] = sum(deg[iStep] for iStep=(Steps_stages[iStage]+1):(Steps_stages[iStage+1]))
+            #deg_stage[iStage] = sum(deg[iStep] for iStep=(Steps_stages[iStage]+1):(Steps_stages[iStage+1]))
             rev_acquisto[iStage] = JuMP.value(problem.rev_acquisto[iStage])
             rev_vendita[iStage] = JuMP.value(problem.rev_vendita[iStage])
         end

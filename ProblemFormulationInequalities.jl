@@ -8,7 +8,7 @@ function BuildStageProblem(InputParameters::InputParam, SolverParameters::Solver
     @unpack (min_SOC, max_SOC, min_P, max_P, Eff_charge, Eff_discharge, max_SOH, min_SOH, Nfull, fix) = Battery ;         
 
     k = min_SOH/(2*Nfull)
-    Small = 0.9025
+    Small = 1
 
     M = Model(Gurobi.Optimizer)
     set_optimizer_attribute(M, "MIPGap", 0.05)
@@ -123,6 +123,7 @@ function BuildStageProblem(InputParameters::InputParam, SolverParameters::Solver
     @constraint(M, energy_capacity[iStage=1:NStages], capacity[Steps_stages[iStage]+2] == capacity[Steps_stages[iStage]+1]+revamping[iStage]-deg[Steps_stages[iStage]+1]*k) #
    
     @constraint(M, initial_e[iStep=1], capacity[iStep] == min_SOH)
+    @constraint(M, initial_rev[iStage=1], e[iStage] == 1)
 
     @constraint(M,en_cap1[iStage in 1:NStages, iStep in ((Steps_stages[iStage]+2):Steps_stages[iStage+1])], capacity[iStep+1]== capacity[iStep]-deg[iStep]*k)
 
