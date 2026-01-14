@@ -67,15 +67,6 @@ to = TimerOutput()
 
 end
 
-#=save input data
-@timeit to "Save input" begin
-    save(joinpath(FinalResPath,"CaseDetails.jld"), "case" ,case)
-    save(joinpath(FinalResPath,"SolverParameters.jld"), "SolverParameters" ,SolverParameters)
-    save(joinpath(FinalResPath,"InputParameters.jld"), "InputParameters" ,InputParameters)
-    save(joinpath(FinalResPath,"BatteryCharacteristics.jld"), "BatteryCharacteristics" ,Battery)
-    save(joinpath(FinalResPath,"PowerPrices.jld"),"PowerPrices",Power_prices)
-end=#
-
 @timeit to "Solve optimization problem" begin
   ResultsOpt = solveOptimizationProblem(InputParameters,SolverParameters,Battery);
   save(joinpath(FinalResPath, "optimization_results.jld"), "optimization_results", ResultsOpt)
