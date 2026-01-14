@@ -13,7 +13,7 @@ function data_saving(InputParameters::InputParam,ResultsOpt::Results)
     hour=string(now())
     a=replace(hour,':'=> '-')
 
-    nameF= "OCRA 2 , 3 bin MipGap 5%"
+    nameF= "OCRA 2, 3 bin MipGap 5%, 14 gennaio"
     nameFile="Summary " 
 
     folder = "$nameF"

@@ -1,6 +1,6 @@
 # SOLVE OPTIMIZATION PROBLEM
 
-#function solveOptimizationProblem(InputParameters::InputParam, SolverParameters::SolverParam, Battery::BatteryParam)
+function solveOptimizationProblem(InputParameters::InputParam, SolverParameters::SolverParam, Battery::BatteryParam)
 
     @unpack (NYears, NMonths, NStages, Big, NHoursStep, disc,) = InputParameters;                #NSteps, NHoursStage
     @unpack (min_SOC, max_SOC, Eff_charge, Eff_discharge, min_P, max_P, max_SOH, min_SOH, Nfull,fix ) = Battery;
@@ -107,19 +107,18 @@
         for iStage=1:NStages
             rev[iStage] = JuMP.value(problem.revamping[iStage])
             e[iStage] = JuMP.value(problem.e[iStage])
-            #deg_stage[iStage] = sum(deg[iStep] for iStep=(Steps_stages[iStage]+1):(Steps_stages[iStage+1]))
+            deg_stage[iStage] = sum(deg[iStep] for iStep=(Steps_stages[iStage]+1):(Steps_stages[iStage+1]))
             rev_acquisto[iStage] = JuMP.value(problem.rev_acquisto[iStage])
             rev_vendita[iStage] = JuMP.value(problem.rev_vendita[iStage])
         end
-        
+          
+
         for iStage=2:(NStages-1)
             #revenues_per_stage[iStage] = sum(Power_prices[iStep]*NHoursStep*(discharge[iStep]-charge[iStep]) for iStep=(Steps_stages[iStage]+1):(Steps_stages[iStage+1])) + Battery_price_sale[iStage]*(cap[Steps_stages[iStage-1]+1]+rev[iStage-1]-rev_vendita[iStage-1]) - Battery_price_purchase[iStage]*(cap[Steps_stages[iStage]+1]+rev[iStage]+rev_acquisto[iStage]) - e[iStage]*fix
             #revenues_per_stage[iStage] = sum(Power_prices[iStep]*NHoursStep*(discharge[iStep]-charge[iStep]) for iStep=(Steps_stages[iStage]+1):(Steps_stages[iStage+1])) - Battery_price_purchase[iStage]*rev[iStage] - e[iStage]*fix
             gain_stage[iStage] = sum(Power_prices[iStep]*NHoursStep*(discharge[iStep]-charge[iStep]) for iStep=(Steps_stages[iStage]+1):(Steps_stages[iStage+1]))
             #cost_rev[iStage] = Battery_price_purchase[iStage]*(cap[Steps_stages[iStage]+2]) - Battery_price_sale[iStage]*(cap[Steps_stages[iStage]+1]-rev_vendita[iStage]) + e[iStage]*fix
-            cost_rev[iStage] = Battery_price_purchase[iStage]*(cap[Steps_stages[iStage]+2]+rev_acquisto[iStage]) - Battery_price_sale[iStage]*(cap[Steps_stages[iStage]+1]-rev_vendita[iStage]) + e[iStage]*fix
-            
-           
+            cost_rev[iStage] = Battery_price_purchase[iStage]*(cap[Steps_stages[iStage]+2]+rev_acquisto[iStage]) - Battery_price_sale[iStage]*(cap[Steps_stages[iStage]+1]-rev_vendita[iStage]) + e[iStage]*fix 
         end
 
         #revenues_per_stage[1] = sum(Power_prices[iStep]*NHoursStep*(discharge[iStep]-charge[iStep]) for iStep=(Steps_stages[1]+1):(Steps_stages[2])) - Battery_price_purchase[1]*rev[1] - fix*e[1]

@@ -52,7 +52,7 @@ to = TimerOutput()
 
   # Read power prices from a file [€/MWh]
   #Steps_stages = [0 1132 2259 3397 4465 5650 6723 7806 8843 9953 10946 12124 13171 14283 15273 16385 17375 18460 19470 20496 21505] #every semester
-  Steps_stages = [0 2259 4465 3723 8843 10946] # yearly revamping over 5 years
+  Steps_stages = [0 2259 4465 6723 8843 10946] # yearly revamping over 5 years
   #Steps_stop = [128 127 120 111 127 115 115 123 120] # 3 weeks downtime
   Steps_stop = [120 127 115 120] # 3 weeks downtime
   NSteps = Steps_stages[NStages+1]
